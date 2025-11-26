@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nayoung Kim | Data Scientist & Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F7F3ED;
+            --warm-white: #FFFDF9;
+            --espresso: #2C2118;
+            --coffee: #5C4033;
+            --caramel: #C4956A;
+            --latte: #D4C4B0;
+            --terracotta: #C67B5C;
+            --sage: #8A9A7B;
+            --charcoal: #3D3D3D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--espresso);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        a {
+            color: var(--coffee);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--terracotta);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--cream) 60%, transparent);
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(247, 243, 237, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(44, 33, 24, 0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--terracotta);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 6rem 4rem 4rem;
+            gap: 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-greeting {
+            font-size: 1rem;
+            color: var(--coffee);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-name {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-name span {
+            display: block;
+            color: var(--terracotta);
+            font-style: italic;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+            max-width: 480px;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.6s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.8s forwards;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--espresso);
+            color: var(--cream);
+            border: 2px solid var(--espresso);
+        }
+
+        .btn-primary:hover {
+            background: var(--coffee);
+            border-color: var(--coffee);
+            color: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--espresso);
+            border: 2px solid var(--espresso);
+        }
+
+        .btn-secondary:hover {
+            background: var(--espresso);
+            color: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        .hero-image-frame {
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--latte) 0%, var(--caramel) 100%);
+            border-radius: 200px 200px 20px 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 30px 60px rgba(44, 33, 24, 0.15);
+        }
+
+        .hero-image-frame::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border: 2px solid var(--caramel);
+            border-radius: 215px 215px 35px 35px;
+            opacity: 0.5;
+        }
+
+        .hero-placeholder {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            color: var(--warm-white);
+            opacity: 0.8;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: var(--warm-white);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(44, 33, 24, 0.1);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-1 {
+            top: 10%;
+            right: -20px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .badge-2 {
+            bottom: 20%;
+            left: -30px;
+            animation: float 4s ease-in-out infinite 1s;
+        }
+
+        .badge-icon {
+            font-size: 1.2rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 4rem;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--terracotta);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--warm-white);
+            position: relative;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--coffee);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--charcoal);
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .interest-card {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .interest-card:hover {
+            border-color: var(--caramel);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(44, 33, 24, 0.08);
+        }
+
+        .interest-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .interest-card h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--espresso);
+        }
+
+        .interest-card p {
+            font-size: 0.85rem;
+            color: var(--charcoal);
+            margin: 0;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: var(--espresso);
+            color: var(--cream);
+        }
+
+        .skills .section-label {
+            color: var(--caramel);
+        }
+
+        .skills .section-title {
+            color: var(--warm-white);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--caramel);
+        }
+
+        .skill-category h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--caramel);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--terracotta);
+        }
+
+        /* Experience Timeline */
+        .experience {
+            background: var(--cream);
+        }
+
+        .timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--caramel), var(--latte));
+        }
+
+        .timeline-item {
+            padding-left: 3rem;
+            padding-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--terracotta);
+            border-radius: 50%;
+            border: 3px solid var(--cream);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--terracotta);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-company {
+            color: var(--coffee);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--warm-white);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--latte);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(44, 33, 24, 0.12);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--caramel) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: var(--cream);
+            color: var(--coffee);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-card p {
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .project-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Publications */
+        .publications {
+            background: var(--cream);
+        }
+
+        .publications-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .publication-item {
+            padding: 2rem;
+            background: var(--warm-white);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--caramel);
+            transition: all 0.3s ease;
+        }
+
+        .publication-item:hover {
+            box-shadow: 0 10px 30px rgba(44, 33, 24, 0.08);
+        }
+
+        .publication-year {
+            font-size: 0.85rem;
+            color: var(--terracotta);
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-authors {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+        }
+
+        .publication-journal {
+            font-size: 0.85rem;
+            color: var(--coffee);
+            margin-top: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--espresso);
+            color: var(--cream);
+            text-align: center;
+        }
+
+        .contact .section-label {
+            color: var(--caramel);
+        }
+
+        .contact .section-title {
+            color: var(--warm-white);
+        }
+
+        .contact-intro {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .contact-email {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--caramel);
+            display: inline-block;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .contact-email::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--caramel);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-email:hover::after {
+            transform: scaleX(1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cream);
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .social-link:hover {
+            border-color: var(--caramel);
+            background: var(--caramel);
+            color: var(--espresso);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--espresso);
+            color: var(--latte);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 8rem 2rem 4rem;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-tagline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .hero-image-frame {
+                width: 280px;
+                height: 350px;
+            }
+
+            .floating-badge {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Korean Learning App Feature */
+        .featured-project {
+            background: linear-gradient(135deg, var(--terracotta) 0%, var(--coffee) 100%);
+            color: var(--cream);
+            padding: 4rem;
+            border-radius: 30px;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .featured-project h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--warm-white);
+        }
+
+        .featured-project p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .featured-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            width: 200px;
+            height: 400px;
+            background: var(--espresso);
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--warm-white);
+            border-radius: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .phone-text {
+            font-size: 1rem;
+            color: var(--espresso);
+            margin-top: 0.5rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        @media (max-width: 968px) {
+            .featured-project {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .featured-visual {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Nayoung Kim</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#publications">Publications</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-greeting">Hello, I'm</p>
+            <h1 class="hero-name">
+                Nayoung Kim
+                <span>Data Scientist & Researcher</span>
+            </h1>
+            <p class="hero-tagline">
+                Transforming complex data into meaningful insights. PhD in Cognitive Science with 10+ years bridging research and analytics. Currently building Korean learning games.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">Get in Touch</a>
+                <a href="#projects" class="btn btn-secondary">View Projects</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-image-frame">
+                <span class="hero-placeholder">NK</span>
+                <div class="floating-badge badge-1">
+                    <span class="badge-icon">🥋</span>
+                    <span>Black Belt</span>
+                </div>
+                <div class="floating-badge badge-2">
+                    <span class="badge-icon">☕</span>
+                    <span>Coffee Lover</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h3>A bit about me</h3>
+                <p>
+                    I'm a data scientist and researcher with a unique blend of academic rigor and practical analytics expertise. With a PhD in Educational Psychology from the University of Illinois, I specialize in transforming complex datasets into actionable insights that drive strategic decisions.
+                </p>
+                <p>
+                    Currently serving as Director of Institutional Research at Pitt Community College, I design ETL pipelines, build predictive models, and create interactive dashboards that shape educational outcomes. My research background in psycholinguistics gives me a deep understanding of how people learn and process information—knowledge I'm now channeling into developing Korean language learning games.
+                </p>
+                <p>
+                    When I'm not diving into data, you'll find me at a cozy café with good coffee and music, working on creative projects. I believe the best work happens when analytical thinking meets creative expression.
+                </p>
+            </div>
+            <div class="about-interests">
+                <h3>Beyond the Data</h3>
+                <div class="interests-grid">
+                    <div class="interest-card">
+                        <div class="interest-icon">🥋</div>
+                        <h4>Taekwondo</h4>
+                        <p>Black belt holder with years of discipline and practice</p>
+                    </div>
+                    <div class="interest-card">
+                        <div class="interest-icon">🎨</div>
+                        <h4>Art & Creativity</h4>
+                        <p>Pottery, oil paintings, and textured art enthusiast</p>
+                    </div>
+                    <div class="interest-card">
+                        <div class="interest-icon">🎹</div>
+                        <h4>Music</h4>
+                        <p>Advanced pianist, learning cello, always listening</p>
+                    </div>
+                    <div class="interest-card">
+                        <div class="interest-icon">☕</div>
+                        <h4>Café Culture</h4>
+                        <p>Best ideas come with great coffee and ambient music</p>
+                    </div>
+                    <div class="interest-card">
+                        <div class="interest-icon">✈️</div>
+                        <h4>Travel</h4>
+                        <p>Exploring new places and experiencing different cultures</p>
+                    </div>
+                    <div class="interest-card">
+                        <div class="interest-icon">🇰🇷</div>
+                        <h4>Korean Ed-Tech</h4>
+                        <p>Building language learning games to make Korean fun</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="section-header">
+            <p class="section-label">Expertise</p>
+            <h2 class="section-title">Technical Skills</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Languages & Tools</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">R</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Jupyter</span>
+                    <span class="skill-tag">VS Code</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Data & Analytics</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">NumPy</span>
+                    <span class="skill-tag">Scikit-learn</span>
+                    <span class="skill-tag">Seaborn</span>
+                    <span class="skill-tag">Matplotlib</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Visualization</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Tableau</span>
+                    <span class="skill-tag">Power BI</span>
+                    <span class="skill-tag">Plotly</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Web Development</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS</span>
+                    <span class="skill-tag">JavaScript</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Research Methods</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">A/B Testing</span>
+                    <span class="skill-tag">Experimental Design</span>
+                    <span class="skill-tag">Eye-Tracking</span>
+                    <span class="skill-tag">Causal Inference</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Statistical Modeling</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Linear Regression</span>
+                    <span class="skill-tag">ANOVA</span>
+                    <span class="skill-tag">HLM</span>
+                    <span class="skill-tag">Mixed Effects Models</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>Core Competencies</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Predictive Analytics</span>
+                    <span class="skill-tag">Business Intelligence</span>
+                    <span class="skill-tag">ETL</span>
+                    <span class="skill-tag">Machine Learning</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="section-header">
+            <p class="section-label">Career</p>
+            <h2 class="section-title">Professional Journey</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <p class="timeline-date">January 2025 – Present</p>
+                <h3 class="timeline-title">Director, Institutional Research</h3>
+                <p class="timeline-company">Pitt Community College, Greenville, NC</p>
+                <p class="timeline-description">
+                    Design Python-based ETL pipelines for institutional data. Build interactive dashboards in Tableau and Power BI for enrollment trends and student outcomes. Develop predictive models for student success and strategic planning.
+                </p>
+            </div>
+            <div class="timeline-item fade-in">
+                <p class="timeline-date">August 2012 – May 2019</p>
+                <h3 class="timeline-title">Lab Manager & Research Assistant</h3>
+                <p class="timeline-company">Educational Psycholinguistics Lab, Beckman Institute, UIUC</p>
+                <p class="timeline-description">
+                    Developed psycholinguistics experiments using eye-tracking technology. Analyzed data with R, Python, and SAS. Trained research assistants and managed the lab website. Mentored graduate and undergraduate researchers.
+                </p>
+            </div>
+            <div class="timeline-item fade-in">
+                <p class="timeline-date">August 2014 – December 2014</p>
+                <h3 class="timeline-title">Instructor, Introductory Psychology</h3>
+                <p class="timeline-company">Department of Psychology, UIUC</p>
+                <p class="timeline-description">
+                    Designed and presented all instructional content for PSYCH 100. Developed assessments and managed the course through Moodle LMS. Integrated multimedia resources to enhance student engagement.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-header">
+            <p class="section-label">Work</p>
+            <h2 class="section-title">Featured Projects</h2>
+        </div>
+
+        <!-- Featured Korean Learning App -->
+        <div class="featured-project fade-in">
+            <div class="featured-content">
+                <span class="featured-badge">🚀 IN DEVELOPMENT</span>
+                <h3>Korean Learning Game App</h3>
+                <p>
+                    Combining my expertise in psycholinguistics, cognitive science, and data analytics to create an engaging language learning experience. Using gamification principles and evidence-based learning strategies to make Korean accessible and fun.
+                </p>
+                <a href="#contact" class="btn btn-primary" style="background: var(--warm-white); color: var(--espresso); border-color: var(--warm-white);">Learn More</a>
+            </div>
+            <div class="featured-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <span>한글</span>
+                        <span class="phone-text">Learn Korean</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card fade-in">
+                <div class="project-image">🍄</div>
+                <div class="project-content">
+                    <span class="project-tag">Machine Learning</span>
+                    <h3>Mushroom Classification</h3>
+                    <p>Applied EDA and multiple classification algorithms on the Kaggle Mushrooms dataset for predictive modeling.</p>
+                    <a href="https://github.com/mjhihi/project4_team1" class="project-link" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="project-card fade-in">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--terracotta) 0%, var(--caramel) 100%);">🧠</div>
+                <div class="project-content">
+                    <span class="project-tag">Deep Learning</span>
+                    <h3>Alphabet Soup Classifier</h3>
+                    <p>Built a neural network binary classifier to predict nonprofit funding success using TensorFlow.</p>
+                    <a href="https://github.com/mjhihi/Deep_Learning_Challenge" class="project-link" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="project-card fade-in">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--coffee) 0%, var(--sage) 100%);">📱</div>
+                <div class="project-content">
+                    <span class="project-tag">Data Analysis</span>
+                    <h3>Social Media & Mental Health</h3>
+                    <p>Analyzed the relationship between social media usage and mental health using PostgreSQL and JavaScript dashboards.</p>
+                    <a href="https://github.com/mjhihi/Social_Health" class="project-link" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="project-card fade-in">
+                <div class="project-image" style="background: linear-gradient(135deg, var(--caramel) 0%, var(--latte) 100%);">🚴</div>
+                <div class="project-content">
+                    <span class="project-tag">Data Visualization</span>
+                    <h3>NY CitiBike Analysis</h3>
+                    <p>Created comprehensive Tableau dashboards analyzing NYC bike-sharing program patterns and trends.</p>
+                    <a href="https://public.tableau.com/app/profile/nayoung.kim2003/vizzes" class="project-link" target="_blank">View on Tableau</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section class="publications" id="publications">
+        <div class="section-header">
+            <p class="section-label">Research</p>
+            <h2 class="section-title">Selected Publications</h2>
+        </div>
+        <div class="publications-list">
+            <div class="publication-item fade-in">
+                <p class="publication-year">2024</p>
+                <p class="publication-title">Retracing the garden-path: Nonselective rereading and no reanalysis</p>
+                <p class="publication-authors">Christianson, K., Dempsey, J., Tsiola, A., Deshaies, SEM., & <strong>Kim, N.</strong></p>
+                <p class="publication-journal">Journal of Memory and Language, 137, 104-515</p>
+            </div>
+            <div class="publication-item fade-in">
+                <p class="publication-year">2020</p>
+                <p class="publication-title">Double relative clauses in Korean</p>
+                <p class="publication-authors">Kim, E.H., Choi, S.H., Maeng, J, Kim, H.R., <strong>Kim, N.</strong>, Yoon, N., & Yoon, J.</p>
+                <p class="publication-journal">Japanese/Korean Linguistics, 26</p>
+            </div>
+            <div class="publication-item fade-in">
+                <p class="publication-year">2019</p>
+                <p class="publication-title">Gesture and vocabulary learning in a foreign language</p>
+                <p class="publication-authors">Huang, X., <strong>Kim, N.</strong>, & Christianson, K.</p>
+                <p class="publication-journal">Language Learning, 69, 177-197</p>
+            </div>
+            <div class="publication-item fade-in">
+                <p class="publication-year">2019</p>
+                <p class="publication-title">Grammatical aspect and world knowledge in second language reading</p>
+                <p class="publication-authors">Kang, H.S., <strong>Kim, N.</strong>, & Christianson, K.</p>
+                <p class="publication-journal">International Review of Applied Linguistics in Language Teaching</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <p class="section-label">Connect</p>
+            <h2 class="section-title">Let's Work Together</h2>
+        </div>
+        <p class="contact-intro">
+            Whether you're interested in data analytics, research collaboration, or my Korean learning app project—I'd love to hear from you.
+        </p>
+        <a href="/cdn-cgi/l/email-protection#48252220212021082f25292124662b2725" class="contact-email"><span class="__cf_email__" data-cfemail="3b5651535253527b5c565a525715585456">[email&#160;protected]</span></a>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/nayoung-kim-31a2a272/" class="social-link" target="_blank">in</a>
+            <a href="https://github.com/mjhihi" class="social-link" target="_blank">Git</a>
+            <a href="https://public.tableau.com/app/profile/nayoung.kim2003/vizzes" class="social-link" target="_blank">Tab</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Nayoung Kim. Crafted with ☕ and curiosity.</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animation observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (
